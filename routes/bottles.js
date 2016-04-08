@@ -48,13 +48,31 @@ router.post('/',function (req,res,next) {
     });
 });
 
-//
+// /bottles/321312312321312
 router.get('/:_id',function (req,res,next) {
     mongodb.getOne(req.params._id, function (result) {
         res.json(result);
     });
 });
 
+// 回复特定 id 的漂流瓶
+// POST  /bottles/reply/:_id user=xxx&content=xxx[&time=xxx]
+router.post('/reply/:_id', function (req, res) {
+    if (!(req.body.user && req.body.content)) {
+        return callback({code: 0, msg: "回复信息不完整！"});
+    }
+    mongodb.reply(req.params._id, req.body, function (result) {
+        res.json(result);
+    });
+});
 
+
+// 删除特定 id 的漂流瓶
+// GET /bottles/delete/529a8b5b39242c82417b43c3
+router.get('/delete/:_id', function (req, res) {
+    mongodb.delete(req.params._id, function (result) {
+        res.json(result);
+    });
+});
 
 module.exports = router;
