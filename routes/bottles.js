@@ -5,7 +5,8 @@
 
 var express = require('express'),
     router = express.Router(),
-    redis = require('../models/redis');
+    redis = require('../models/redis'),
+    mongodb = require('../models/mongodb');
 
 /* GET bottles listing. */
 // 捡一个漂流瓶
@@ -18,6 +19,14 @@ router.get('/', function(req, res, next) {
         return res.json({code: 0, msg: "类型错误"});
     }
     redis.pick(req.query, function (result) {
+        if (result.code === 1){
+            mongodb.save(req.query.user,result.msg,function (err) {
+                if (err) {
+                    return res.json({code: 0, msg: "获取漂流瓶失败，请重试"});
+                }
+                return res.json(result);
+            })
+        }
         res.json(result);
     });
 });
@@ -38,5 +47,14 @@ router.post('/',function (req,res,next) {
         return res.json(result);
     });
 });
+
+//
+router.get('/:_id',function (req,res,next) {
+    mongodb.getOne(req.params._id, function (result) {
+        res.json(result);
+    });
+});
+
+
 
 module.exports = router;
