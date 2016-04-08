@@ -46,7 +46,7 @@ function throwOneBottle(bottle,callback) {
                 if (err) {
                     return callback({code: 0, msg: "过会儿再试试吧！"});
                 }
-                client.expire(bottleId,86400,function () {
+                client.expire(bottleId,(86400000+bottle.time - Date.now())/1000,function () {
                     pool.release(client);
                 });
                 // 返回结果，成功时返回 OK
