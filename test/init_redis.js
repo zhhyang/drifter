@@ -16,7 +16,7 @@ for (let i=1;i<6;i++) {
 for (let i=6;i<=10;i++) {
     request.post({
         url: "http://127.0.0.1:3000/bottles",
-        json: {"owner": "bottle" + i, "type": "male", "content": "content" + i}
+        json: {"owner": "bottle" + i, "type": "famale", "content": "content" + i}
     });
 }
 
