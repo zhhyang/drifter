@@ -9,7 +9,7 @@ var express = require('express'),
 
 /* GET bottles listing. */
 // 捡一个漂流瓶
-// GET /?user=xxx[&type=xxx]
+// GET /bottles?user=xxx[&type=xxx]
 router.get('/', function(req, res, next) {
     if (!req.query.user) {
         return res.json({code: 0, msg: "信息不完整"});
@@ -22,7 +22,7 @@ router.get('/', function(req, res, next) {
     });
 });
 // 扔一个漂流瓶
-// POST owner=xxx&type=xxx&content=xxx[&time=xxx]
+// POST /bottles owner=xxx&type=xxx&content=xxx[&time=xxx]
 router.post('/',function (req,res,next) {
     console.log(req.body.owner);
     console.log(req.body.type);
